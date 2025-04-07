@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="header">
+        <h2>Lista Prodotti</h2>
+    </div>
+    <ul class="product-list">
+        <li *ngFor="let product of products" (click)="selectProduct(product)" class="product-item">
+            {{ product.name }} - ${{ product.price }}
+        </li>
+    </ul>
+</div>
