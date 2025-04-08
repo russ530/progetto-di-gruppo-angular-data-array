@@ -3,28 +3,39 @@
         <h2>Lista Prodotti</h2>
     </div>
     <ul class="product-list">
-        <li *ngFor="let product of products" (click)="selectProduct(product)" class="product-item">
+        <li *ngFor="let product of products" (click)="selectProduct(product)" class="product-item fadeIn">
             {{ product.name }} - ${{ product.price }}
         </li>
     </ul>
-    <div class="product-detail">
+    <div class="product-detail fadeIn">
         <app-product-detail-component *ngIf="selectedProduct" [product]="selectedProduct"></app-product-detail-component>
     </div>
     <h3>Elimina un Prodotto</h3>
-    <!-- Aggiungi un pulsante di eliminazione per ogni prodotto -->
-    <li *ngFor="let product of products; let i = index">
-      {{ product.name }} - ${{ product.price }}
-      <button (click)="deleteProduct(i)">Elimina</button> <!-- Pulsante Elimina -->
-    </li>
-<!-- Form per aggiungere un nuovo prodotto -->
-<div>
-<h3>Aggiungi un Nuovo Prodotto</h3>
-<form (submit)="addProduct()">
-  <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome" required />
-  <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required />
-  <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required />
-  <button type="submit">Aggiungi Prodotto</button>
-</form>
-</div>
+    <ul class="product-list">
+        <li *ngFor="let product of products; let i = index" class="product-item fadeIn">
+            {{ product.name }} - ${{ product.price }}
+            <button (click)="deleteProduct(i)" class="delete-btn">Elimina</button>
+        </li>
+    </ul>
 
+       <!-- Form per aggiungere nuovi prodotti -->
+       <div class="add-product-form">
+        <h3>Aggiungi un Nuovo Prodotto</h3>
+        <form (submit)="addProduct()" #productForm="ngForm">
+            <div>
+                <div *ngIf="name.invalid && name.touched" class="error-message">Il nome è obbligatorio.</div>
+                <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome" required #name="ngModel" />
+            </div>
+            <div>
+                <div *ngIf="price.invalid && price.touched" class="error-message">Il prezzo è obbligatorio e deve essere un numero.</div>
+                <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required #price="ngModel" />
+                
+            </div>
+            <div>
+                <div *ngIf="description.invalid && description.touched" class="error-message">La descrizione è obbligatoria.</div>
+                <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
+            </div>
+            <button type="submit" [disabled]="productForm.invalid">Aggiungi Prodotto</button>
+        </form>
+    </div>
 </div>
