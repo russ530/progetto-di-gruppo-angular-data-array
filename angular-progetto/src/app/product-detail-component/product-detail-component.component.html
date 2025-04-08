@@ -1,1 +1,16 @@
-<p>product-detail-component works!</p>
+<div class="card mt-4">
+    <div class="card-body">
+      <h3 class="card-title">{{ product.name }}</h3>
+      <p class="card-text"><strong>Prezzo:</strong> ${{ product.price }}</p>
+      <p class="card-text">{{ product.description }}</p>
+    </div>
+    <h3>Dettaglio Prodotto</h3>
+    <div *ngIf="product">
+      <p>Nome: {{ product.name }}</p>
+      <p>Prezzo: ${{ product.price }}</p>
+      <p>Descrizione: {{ product.description }}</p>
+    </div>
+    <div *ngIf="!product">
+      <p>Seleziona un prodotto per visualizzare i dettagli.</p>
+    </div>
+  </div>

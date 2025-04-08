@@ -7,4 +7,6 @@
             {{ product.name }} - ${{ product.price }}
         </li>
     </ul>
-</div>
+    <div class="product-detail">
+        <app-product-detail-component *ngIf="selectedProduct" [product]="selectedProduct"></app-product-detail-component>
+    </div>
