@@ -10,3 +10,21 @@
     <div class="product-detail">
         <app-product-detail-component *ngIf="selectedProduct" [product]="selectedProduct"></app-product-detail-component>
     </div>
+    <h3>Elimina un Prodotto</h3>
+    <!-- Aggiungi un pulsante di eliminazione per ogni prodotto -->
+    <li *ngFor="let product of products; let i = index">
+      {{ product.name }} - ${{ product.price }}
+      <button (click)="deleteProduct(i)">Elimina</button> <!-- Pulsante Elimina -->
+    </li>
+<!-- Form per aggiungere un nuovo prodotto -->
+<div>
+<h3>Aggiungi un Nuovo Prodotto</h3>
+<form (submit)="addProduct()">
+  <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome" required />
+  <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required />
+  <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required />
+  <button type="submit">Aggiungi Prodotto</button>
+</form>
+</div>
+
+</div>

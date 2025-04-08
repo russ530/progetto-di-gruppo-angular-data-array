@@ -23,4 +23,18 @@ export class ProductListComponentComponent {
   selectProduct(product: any) {
     this.selectedProduct = product;
   }
+  deleteProduct(index: number) {
+    this.products.splice(index, 1);  // Rimuove il prodotto in base all'indice
 }
+ // Oggetto per il nuovo prodotto
+ newProduct = { name: '', price: 0, description: '' };
+
+ // Funzione per aggiungere un nuovo prodotto
+ addProduct() {
+   if (this.newProduct.name && this.newProduct.price && this.newProduct.description) {
+     this.products.push({ ...this.newProduct }); // Aggiungi il nuovo prodotto alla lista
+     this.newProduct = { name: '', price: 0, description: '' }; // Resetta il modulo
+   }
+ }
+}
+
