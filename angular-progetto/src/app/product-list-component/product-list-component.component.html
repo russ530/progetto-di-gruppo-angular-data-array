@@ -1,40 +1,70 @@
 <div class="container">
+    <!-- Contenitore principale per tutto il contenuto -->
     <div class="header">
+        <!-- Sezione dell'intestazione con il titolo -->
         <h2>Lista Prodotti</h2>
     </div>
+
+    <!-- Lista dei prodotti -->
     <ul class="product-list">
+        <!-- Ciclo per visualizzare ogni prodotto -->
         <li *ngFor="let product of products" (click)="selectProduct(product)" class="product-item fadeIn">
+            <!-- Visualizza il nome e il prezzo del prodotto -->
             {{ product.name }} - ${{ product.price }}
         </li>
     </ul>
+
+    <!-- Sezione per i dettagli del prodotto selezionato -->
     <div class="product-detail fadeIn">
+        <!-- Visualizza i dettagli solo se un prodotto è stato selezionato -->
         <app-product-detail-component *ngIf="selectedProduct" [product]="selectedProduct"></app-product-detail-component>
     </div>
+
     <h3>Elimina un Prodotto</h3>
+    <!-- Lista dei prodotti con opzione di eliminazione -->
     <ul class="product-list">
+        <!-- Ciclo per visualizzare ogni prodotto con l'opzione di eliminazione -->
         <li *ngFor="let product of products; let i = index" class="product-item fadeIn">
+            <!-- Visualizza il nome e il prezzo del prodotto -->
             {{ product.name }} - ${{ product.price }}
+            <!-- Bottone per eliminare il prodotto -->
             <button (click)="deleteProduct(i)" class="delete-btn">Elimina</button>
         </li>
     </ul>
 
-       <!-- Form per aggiungere nuovi prodotti -->
-       <div class="add-product-form">
+    <!-- Sezione del modulo per aggiungere un nuovo prodotto -->
+    <div class="add-product-form">
         <h3>Aggiungi un Nuovo Prodotto</h3>
+        <!-- Form per aggiungere un nuovo prodotto -->
         <form (submit)="addProduct()" #productForm="ngForm">
+            <!-- Campo per il nome del prodotto -->
             <div>
-                <div *ngIf="name.invalid && name.touched" class="error-message">Il nome è obbligatorio.</div>
+                <div *ngIf="name.invalid && name.touched" class="error-message">
+                    <!-- Messaggio di errore se il nome è obbligatorio e non è stato compilato -->
+                    Il nome è obbligatorio.
+                </div>
                 <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome" required #name="ngModel" />
             </div>
+
+            <!-- Campo per il prezzo del prodotto -->
             <div>
-                <div *ngIf="price.invalid && price.touched" class="error-message">Il prezzo è obbligatorio e deve essere un numero.</div>
+                <div *ngIf="price.invalid && price.touched" class="error-message">
+                    <!-- Messaggio di errore se il prezzo non è valido -->
+                    Il prezzo è obbligatorio e deve essere un numero.
+                </div>
                 <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required #price="ngModel" />
-                
             </div>
+
+            <!-- Campo per la descrizione del prodotto -->
             <div>
-                <div *ngIf="description.invalid && description.touched" class="error-message">La descrizione è obbligatoria.</div>
+                <div *ngIf="description.invalid && description.touched" class="error-message">
+                    <!-- Messaggio di errore se la descrizione non è stata compilata -->
+                    La descrizione è obbligatoria.
+                </div>
                 <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
             </div>
+
+            <!-- Bottone per inviare il modulo e aggiungere il prodotto -->
             <button type="submit" [disabled]="productForm.invalid">Aggiungi Prodotto</button>
         </form>
     </div>
