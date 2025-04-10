@@ -5,7 +5,7 @@
     <h3>Dettaglio Prodotto</h3>
     <div *ngIf="product">
       <p>Nome: {{ product.name }}</p>
-      <p>Prezzo: ${{ product.price }}</p>
+      <p>Prezzo: €{{ product.price }}</p>
       <p>Descrizione: {{ product.description }}</p>
     </div>
     <div *ngIf="!product">

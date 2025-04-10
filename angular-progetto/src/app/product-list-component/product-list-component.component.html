@@ -1,71 +1,75 @@
-<div class="container">
-    <!-- Contenitore principale per tutto il contenuto -->
-    <div class="header">
-        <!-- Sezione dell'intestazione con il titolo -->
-        <h2>Lista Prodotti</h2>
-    </div>
+<div class="top-bar">
+    <div class="container">
+        <div class="logo-placeholder">
+          <img src="images/logo.png" alt="Il tuo logo">
+        </div>
+  <div class="header">
+      <h2>Dai un'occhiata alla nostra fantastica tecnologia!</h2>
+  </div>
 
-    <!-- Lista dei prodotti -->
-    <ul class="product-list">
-        <!-- Ciclo per visualizzare ogni prodotto -->
-        <li *ngFor="let product of products" (click)="selectProduct(product)" class="product-item fadeIn">
-            <!-- Visualizza il nome e il prezzo del prodotto -->
-            {{ product.name }} - ${{ product.price }}
-        </li>
-    </ul>
+  <div class="product-list-view">
+      <div class="product-item" *ngFor="let product of products" (click)="selectProduct(product)">
+          <div class="product-image">
+              <img [src]="product.imageUrl" alt="{{ product.name }}" *ngIf="product.imageUrl">
+              <div class="no-image" *ngIf="!product.imageUrl">Nessuna immagine</div>
+          </div>
+          <div class="product-details">
+              <div class="product-name">{{ product.name }}</div>
+              <div class="product-price">Prezzo: {{ product.price | currency:'EUR':'symbol' }}</div>
+              <button class="view-button">Vedi dettagli</button>
+          </div>
+      </div>
+  </div>
 
-    <!-- Sezione per i dettagli del prodotto selezionato -->
-    <div class="product-detail fadeIn">
-        <!-- Visualizza i dettagli solo se un prodotto è stato selezionato -->
-        <app-product-detail-component *ngIf="selectedProduct" [product]="selectedProduct"></app-product-detail-component>
-    </div>
+  <div class="product-detail" *ngIf="selectedProduct">
+      <h3>{{ selectedProduct?.name }}</h3>
+      <div class="product-image detail-image">
+          <img [src]="selectedProduct?.imageUrl" alt="{{ selectedProduct?.name }}" *ngIf="selectedProduct?.imageUrl">
+          <div class="no-image" *ngIf="!selectedProduct?.imageUrl">Nessuna immagine</div>
+      </div>
+      <p class="product-price">Prezzo: {{ selectedProduct?.price | currency:'EUR':'symbol' }}</p>
+      <p class="product-description">{{ selectedProduct?.description }}</p>
+      <button (click)="selectedProduct = null">Torna ai prodotti</button>
+  </div>
 
-    <h3>Elimina un Prodotto</h3>
-    <!-- Lista dei prodotti con opzione di eliminazione -->
-    <ul class="product-list">
-        <!-- Ciclo per visualizzare ogni prodotto con l'opzione di eliminazione -->
-        <li *ngFor="let product of products; let i = index" class="product-item fadeIn">
-            <!-- Visualizza il nome e il prezzo del prodotto -->
-            {{ product.name }} - ${{ product.price }}
-            <!-- Bottone per eliminare il prodotto -->
-            <button (click)="deleteProduct(i)" class="delete-btn">Elimina</button>
-        </li>
-    </ul>
+  <h3>Gestisci articoli (Solo per aiutanti del negozio)</h3>
+  <ul class="item-list">
+      <li *ngFor="let product of products; let i = index" class="list-item">
+          {{ product.name }} - €{{ product.price }}
+          <button (click)="deleteProduct(i)" class="remove-button">Rimuovi articolo</button>
+      </li>
+  </ul>
 
-    <!-- Sezione del modulo per aggiungere un nuovo prodotto -->
-    <div class="add-product-form">
-        <h3>Aggiungi un Nuovo Prodotto</h3>
-        <!-- Form per aggiungere un nuovo prodotto -->
-        <form (submit)="addProduct()" #productForm="ngForm">
-            <!-- Campo per il nome del prodotto -->
-            <div>
-                <div *ngIf="name.invalid && name.touched" class="error-message">
-                    <!-- Messaggio di errore se il nome è obbligatorio e non è stato compilato -->
-                    Il nome è obbligatorio.
-                </div>
-                <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome" required #name="ngModel" />
-            </div>
+  <div class="add-new-item">
+      <h3>Aggiungi nuovo articolo (Solo per aiutanti del negozio)</h3>
+      <form (submit)="addProduct()" #productForm="ngForm">
+          <div>
+              <div *ngIf="name.invalid && name.touched" class="error-message">
+                  Il nome dell'articolo è necessario.
+              </div>
+              <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome articolo" required #name="ngModel" />
+          </div>
 
-            <!-- Campo per il prezzo del prodotto -->
-            <div>
-                <div *ngIf="price.invalid && price.touched" class="error-message">
-                    <!-- Messaggio di errore se il prezzo non è valido -->
-                    Il prezzo è obbligatorio e deve essere un numero.
-                </div>
-                <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required #price="ngModel" />
-            </div>
+          <div>
+              <div *ngIf="price.invalid && price.touched" class="error-message">
+                  Il prezzo deve essere un numero.
+              </div>
+              <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required #price="ngModel" />
+          </div>
 
-            <!-- Campo per la descrizione del prodotto -->
-            <div>
-                <div *ngIf="description.invalid && description.touched" class="error-message">
-                    <!-- Messaggio di errore se la descrizione non è stata compilata -->
-                    La descrizione è obbligatoria.
-                </div>
-                <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
-            </div>
+          <div>
+              <div *ngIf="description.invalid && description.touched" class="error-message">
+                  Raccontaci dell'articolo.
+              </div>
+              <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
+          </div>
 
-            <!-- Bottone per inviare il modulo e aggiungere il prodotto -->
-            <button type="submit" [disabled]="productForm.invalid">Aggiungi Prodotto</button>
-        </form>
-    </div>
+          <div>
+              <label for="imageUrl">URL immagine (Opzionale):</label>
+              <input type="text" [(ngModel)]="newProduct.imageUrl" name="imageUrl" placeholder="URL dell'immagine" #imageUrl="ngModel" />
+          </div>
+
+          <button type="submit" [disabled]="productForm.invalid">Aggiungi nuovo articolo</button>
+      </form>
+  </div>
 </div>
