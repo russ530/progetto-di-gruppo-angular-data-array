@@ -1,67 +1,156 @@
+<head>
+    <!-- Link per Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+</head>
 <div class="top-bar">
     <div class="header">
-
     </div>
     <nav style="background-color: #354253; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-radius: 20px;">
-        <div style="display: flex; align-items: center;">
-          <img src="https://static.vecteezy.com/system/resources/previews/023/654/784/non_2x/golden-logo-template-free-png.png" alt="Logo" style="height: 40px; margin-right: 15px;">
-          <h2 style="margin: 0; font-size: 1.5em; color: #ffffff;">Dai un'occhiata ai nostri fantastici prodotti!</h2>
-        </div>
-      </nav>
-  </div>  
-<div class="container">
-  
-  
-
-  <div class="product-list-view">
-      <div class="product-item" *ngFor="let product of products" (click)="selectProduct(product)">
-          <div class="product-details">
-              <div class="product-name">{{ product.name }}</div>
-              <div class="product-price">Prezzo: {{ product.price | currency:'EUR':'symbol' }}</div>
-              <button class="view-button">Vedi dettagli</button>
-          </div>
+      <div style="display: flex; align-items: center;">
+        <img src="https://static.vecteezy.com/system/resources/previews/023/654/784/non_2x/golden-logo-template-free-png.png" alt="Logo" style="height: 40px; margin-right: 15px;">
+        <h2 style="margin: 0; font-size: 1.5em; color: #ffffff;">Dai un'occhiata ai nostri fantastici prodotti!</h2>
       </div>
+  
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <!-- Barra di ricerca -->
+        <input 
+          type="text" 
+          placeholder="Cerca prodotto..." 
+          [(ngModel)]="searchQuery" 
+          (input)="filterProducts()" 
+          style="padding: 8px; border-radius: 5px; border: 1px solid #ddd; width: 200px; font-size: 1em;">
+        
+        <!-- Pulsante per scrollare alla sezione di aggiunta prodotto -->
+        <button 
+          (click)="scrollToAddProduct()" 
+          style="background-color: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 0.9em;">
+          Aggiungi Prodotto
+        </button>
+  
+        <!-- Pulsante per scrollare alla sezione di gestione prodotti -->
+        <button 
+          (click)="scrollToManageProducts()" 
+          style="background-color: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 0.9em;">
+          Gestisci Prodotti
+        </button>
+      </div>
+    </nav>
   </div>
-
-  <div class="product-detail" *ngIf="selectedProduct">
-      <h3>{{ selectedProduct?.name }}</h3>
-      <p class="product-price">Prezzo: {{ selectedProduct?.price | currency:'EUR':'symbol' }}</p>
-      <p class="product-description">{{ selectedProduct?.description }}</p>
-      <button (click)="selectedProduct = null">Torna ai prodotti</button>
-  </div>
-
-  <h3>Gestisci articoli (Solo per aiutanti del negozio)</h3>
-  <ul class="item-list">
+  
+  <div class="container">
+    <div class="product-list-view">
+      <div class="product-item" *ngFor="let product of filteredProducts" (click)="selectProduct(product)">
+        <div class="product-details">
+          <div class="product-name">{{ product.name }}</div>
+          <div class="product-price">Prezzo: {{ product.price | currency:'EUR':'symbol' }}</div>
+          <button class="view-button" (click)="selectProduct(product)">Vedi dettagli</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Divisore tra la parte dei prodotti e la gestione -->
+    <hr>
+  
+    <!-- Modal per il prodotto selezionato -->
+    <div *ngIf="selectedProduct" class="modal" [@modalAnimation]>
+      <div class="modal-content">
+        <h3>{{ selectedProduct?.name }}</h3>
+        <p class="product-price">Prezzo: {{ selectedProduct?.price | currency:'EUR':'symbol' }}</p>
+        <p class="product-description">{{ selectedProduct?.description }}</p>
+        <button (click)="closeModal()">Chiudi</button>
+      </div>
+    </div>
+  
+    <!-- Sezione per la gestione del prodotto -->
+    <h3 id="gestione-prodotti">Gestisci articoli (Solo per aiutanti del negozio)</h3>
+    <ul class="item-list">
       <li *ngFor="let product of products; let i = index" class="list-item">
-          {{ product.name }} - €{{ product.price }}
-          <button (click)="deleteProduct(i)" class="remove-button">Rimuovi articolo</button>
+        {{ product.name }} - €{{ product.price }}
+        <button (click)="deleteProduct(i)" class="remove-button">Rimuovi articolo</button>
       </li>
-  </ul>
-
-  <div class="add-new-item">
+    </ul>
+  
+    <div id="aggiungi-prodotto" class="add-new-item">
       <h3>Aggiungi nuovo articolo (Solo per aiutanti del negozio)</h3>
       <form (submit)="addProduct()" #productForm="ngForm">
-          <div>
-              <div *ngIf="name.invalid && name.touched" class="error-message">
-                  Il nome dell'articolo è necessario.
-              </div>
-              <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome articolo" required #name="ngModel" />
+        <div>
+          <div *ngIf="name.invalid && name.touched" class="error-message">
+            Il nome dell'articolo è necessario.
           </div>
-
-          <div>
-              <div *ngIf="price.invalid && price.touched" class="error-message">
-                  Il prezzo deve essere un numero.
-              </div>
-              <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required #price="ngModel" />
+          <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome articolo" required #name="ngModel" />
+        </div>
+  
+        <div>
+          <div *ngIf="price.invalid && price.touched" class="error-message">
+            Il prezzo deve essere un numero.
           </div>
-
-          <div>
-              <div *ngIf="description.invalid && description.touched" class="error-message">
-                  Raccontaci dell'articolo.
-              </div>
-              <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
+          <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Prezzo" required #price="ngModel" />
+        </div>
+  
+        <div>
+          <div *ngIf="description.invalid && description.touched" class="error-message">
+            Raccontaci dell'articolo.
           </div>
-          <button type="submit" [disabled]="productForm.invalid">Aggiungi nuovo articolo</button>
+          <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
+        </div>
+        <button type="submit" [disabled]="productForm.invalid">Aggiungi nuovo articolo</button>
       </form>
+    </div>
   </div>
-</div>
+  <!-- Footer -->
+<!-- Footer -->
+<footer style="background-color: #354253; color: white; padding: 30px 20px; margin-top: 40px;">
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+      
+      <!-- Sezione Info -->
+      <div style="flex: 1; min-width: 250px;">
+        <h4>Informazioni</h4>
+        <ul style="list-style: none; padding: 0; font-size: 0.9em;">
+          <li><a href="#" style="color: white; text-decoration: none;">Chi siamo</a></li>
+          <li><a href="#" style="color: white; text-decoration: none;">Politica di privacy</a></li>
+          <li><a href="#" style="color: white; text-decoration: none;">Termini e condizioni</a></li>
+          <li><a href="#" style="color: white; text-decoration: none;">FAQ</a></li>
+        </ul>
+      </div>
+  
+      <!-- Sezione Contatti -->
+      <div style="flex: 1; min-width: 250px;">
+        <h4>Contattaci</h4>
+        <ul style="list-style: none; padding: 0; font-size: 0.9em;">
+          <li>Email: OrionTech&#64;issgalvanimi.it</li>
+          <li>Telefono: +39 123 456 789</li>
+          <li>Indirizzo: IIS Luigi Galvani, Via Francesco Gatti, 14, 20162 Milano MI</li>
+        </ul>
+      </div>
+  
+      <!-- Sezione Social Media -->
+      <div style="flex: 1; min-width: 250px;">
+        <h4>Seguici su</h4>
+        <div style="display: flex; gap: 15px;">
+          <a href="#" style="color: white; font-size: 1.5em; text-decoration: none;">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" style="color: white; font-size: 1.5em; text-decoration: none;">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" style="color: white; font-size: 1.5em; text-decoration: none;">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" style="color: white; font-size: 1.5em; text-decoration: none;">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+  
+    </div>
+  
+    <hr style="border-color: #eee; margin: 20px 0;">
+    
+    <!-- Copyright -->
+    <div style="text-align: center; font-size: 0.9em;">
+      <p>&copy; 2025 orion tech. Tutti i diritti riservati.</p>
+    </div>
+  </footer>
+  
+  

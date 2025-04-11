@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ProductListComponentComponent } from './product-list-component/product-list-component.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
+import { ProductListComponentComponent } from './product-list-component/product-list-component.component'; // Importa il componente prodotto
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProductListComponentComponent, FormsModule],
+  imports: [RouterOutlet, ProductListComponentComponent, FormsModule],  // Assicurati di includere FormsModule
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-
 export class AppComponent {
   title = 'angular-lavoro-gruppo';
 }
