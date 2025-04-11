@@ -1,18 +1,20 @@
 <div class="top-bar">
-    <div class="container">
-        <div class="logo-placeholder">
-          <img src="images/logo.png" alt="Il tuo logo">
+    <div class="header">
+
+    </div>
+    <nav style="background-color: #354253; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-radius: 20px;">
+        <div style="display: flex; align-items: center;">
+          <img src="https://static.vecteezy.com/system/resources/previews/023/654/784/non_2x/golden-logo-template-free-png.png" alt="Logo" style="height: 40px; margin-right: 15px;">
+          <h2 style="margin: 0; font-size: 1.5em; color: #ffffff;">Dai un'occhiata ai nostri fantastici prodotti!</h2>
         </div>
-  <div class="header">
-      <h2>Dai un'occhiata alla nostra fantastica tecnologia!</h2>
-  </div>
+      </nav>
+  </div>  
+<div class="container">
+  
+  
 
   <div class="product-list-view">
       <div class="product-item" *ngFor="let product of products" (click)="selectProduct(product)">
-          <div class="product-image">
-              <img [src]="product.imageUrl" alt="{{ product.name }}" *ngIf="product.imageUrl">
-              <div class="no-image" *ngIf="!product.imageUrl">Nessuna immagine</div>
-          </div>
           <div class="product-details">
               <div class="product-name">{{ product.name }}</div>
               <div class="product-price">Prezzo: {{ product.price | currency:'EUR':'symbol' }}</div>
@@ -23,10 +25,6 @@
 
   <div class="product-detail" *ngIf="selectedProduct">
       <h3>{{ selectedProduct?.name }}</h3>
-      <div class="product-image detail-image">
-          <img [src]="selectedProduct?.imageUrl" alt="{{ selectedProduct?.name }}" *ngIf="selectedProduct?.imageUrl">
-          <div class="no-image" *ngIf="!selectedProduct?.imageUrl">Nessuna immagine</div>
-      </div>
       <p class="product-price">Prezzo: {{ selectedProduct?.price | currency:'EUR':'symbol' }}</p>
       <p class="product-description">{{ selectedProduct?.description }}</p>
       <button (click)="selectedProduct = null">Torna ai prodotti</button>
@@ -63,12 +61,6 @@
               </div>
               <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
           </div>
-
-          <div>
-              <label for="imageUrl">URL immagine (Opzionale):</label>
-              <input type="text" [(ngModel)]="newProduct.imageUrl" name="imageUrl" placeholder="URL dell'immagine" #imageUrl="ngModel" />
-          </div>
-
           <button type="submit" [disabled]="productForm.invalid">Aggiungi nuovo articolo</button>
       </form>
   </div>
