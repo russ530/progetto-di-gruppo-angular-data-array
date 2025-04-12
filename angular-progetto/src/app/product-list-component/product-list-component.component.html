@@ -40,7 +40,7 @@
   
   <div class="container">
     <div class="product-list-view">
-      <div class="product-item" *ngFor="let product of filteredProducts" (click)="selectProduct(product)">
+      <div class="product-item" *ngFor="let product of filteredProducts">
         <div class="product-details">
           <div class="product-name">{{ product.name }}</div>
           <div class="product-price">Prezzo: {{ product.price | currency:'EUR':'symbol' }}</div>
@@ -48,6 +48,7 @@
         </div>
       </div>
     </div>
+    
   
     <!-- Divisore tra la parte dei prodotti e la gestione -->
     <hr>
