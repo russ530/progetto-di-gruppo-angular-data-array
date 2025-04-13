@@ -42,12 +42,19 @@
     <div class="product-list-view">
       <div class="product-item" *ngFor="let product of filteredProducts">
         <div class="product-details">
+          <img 
+            [src]="product.image" 
+            alt="{{ product.name }}" 
+            style="height: 120px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
+          
           <div class="product-name">{{ product.name }}</div>
           <div class="product-price">Prezzo: {{ product.price | currency:'EUR':'symbol' }}</div>
+          
           <button class="view-button" (click)="selectProduct(product)">Vedi dettagli</button>
         </div>
       </div>
     </div>
+    
     
   
     <!-- Divisore tra la parte dei prodotti e la gestione -->
@@ -94,6 +101,11 @@
             Raccontaci dell'articolo.
           </div>
           <input type="text" [(ngModel)]="newProduct.description" name="description" placeholder="Descrizione" required #description="ngModel" />
+        </div>
+        <div>
+          <div>
+            <input [(ngModel)]="newProduct.image" placeholder="URL Immagine" class="form-control mb-2">
+          </div>
         </div>
         <button type="submit" [disabled]="productForm.invalid">Aggiungi nuovo articolo</button>
       </form>
