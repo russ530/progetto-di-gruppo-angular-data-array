@@ -64,8 +64,14 @@
     <div *ngIf="selectedProduct" class="modal" [@modalAnimation]>
       <div class="modal-content">
         <h3>{{ selectedProduct?.name }}</h3>
+        <img 
+            [src]="selectedProduct?.image" 
+            alt="{{ selectedProduct?.name }}" 
+            style="height: 120px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
+          
         <p class="product-price">Prezzo: {{ selectedProduct?.price | currency:'EUR':'symbol' }}</p>
         <p class="product-description">{{ selectedProduct?.description }}</p>
+
         <button (click)="closeModal()">Chiudi</button>
       </div>
     </div>
