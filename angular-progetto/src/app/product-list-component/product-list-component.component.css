@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-  max-width: 2200px;
+  max-width: 2500px;
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
@@ -40,8 +40,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center; /* Centra orizzontalmente gli elementi all'interno del prodotto */
-  height: 250px; /* Altezza fissa per tutti i prodotti */
-  width: 250px;  /* Larghezza fissa per tutti i prodotti */
+  height: 300px; /* Altezza fissa per tutti i prodotti */
+  width: 300px;  /* Larghezza fissa per tutti i prodotti */
   transition: transform 0.3s ease-in-out;
   text-align: center; /* Centra il testo */
 }
@@ -271,3 +271,64 @@ footer .fab:hover {
   transform: scale(1.1);
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px;
+  }
+
+  nav div:first-child {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav img {
+    margin-bottom: 10px;
+  }
+
+  nav h2 {
+    font-size: 1.2em;
+  }
+
+  nav input {
+    width: 100% !important;
+  }
+
+  footer div {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-name {
+    font-size: 1em;
+  }
+
+  .product-price {
+    font-size: 0.9em;
+  }
+
+  .view-button {
+    padding: 6px 10px;
+    font-size: 0.8em;
+  }
+
+  .modal-content {
+    padding: 10px;
+  }
+
+  nav h2 {
+    font-size: 1em;
+  }
+
+  footer h4 {
+    font-size: 1.1em;
+  }
+
+  footer li, footer p {
+    font-size: 0.8em;
+  }
+}
