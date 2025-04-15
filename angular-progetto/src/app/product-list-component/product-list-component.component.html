@@ -9,7 +9,7 @@
   <!-- Barra di ricerca -->
   <input
     type="text"
-    [(ngModel)]="searchText" <!-- Two-way binding per il filtro -->
+    [(ngModel)]="searchText" 
     placeholder="Cerca un prodotto..."
     class="search-bar"
   >
@@ -64,7 +64,7 @@
 <div class="modal-background" *ngIf="selectedProduct">
   <div
     class="modal"
-    [@modalAnimation] <!-- Animazione modale -->
+    [@modalAnimation] 
     (@modalAnimation.done)="onAnimationDone()"
   >
     <!-- Titolo del prodotto -->
