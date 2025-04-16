@@ -77,7 +77,7 @@
       <form (submit)="addProduct()" #productForm="ngForm">
         <div>
           <div *ngIf="name.invalid && name.touched" class="error-message">
-            Il nome dell'articolo è necessario.
+            Il nome dell'articolo è neccessario.
           </div>
           <input type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Nome articolo" required #name="ngModel" />
         </div>
